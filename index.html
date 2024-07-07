@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .converter {
+            margin-bottom: 20px;
+        }
+        .converter input, .converter select {
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .converter button {
+            padding: 10px;
+            width: 100%;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .converter button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Currency Converter</h1>
+        <div class="converter">
+            <input type="number" id="amount" placeholder="Amount">
+            <select id="fromCurrency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="SGD">SGD - Singapore Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="MYR">MYR - Malaysian Ringgit</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="NZD">NZD - New Zealand Dollar</option>
+                <option value="THB">THB - Thai Baht</option>
+                <option value="HKD">HKD - Hong Kong Dollar</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="RUB">RUB - Russian Ruble</option>
+                <option value="BRL">BRL - Brazilian Real</option>
+                <option value="KRW">KRW - South Korean Won</option>
+                <option value="MXN">MXN - Mexican Peso</option>
+                <option value="IDR">IDR - Indonesian Rupiah</option>
+                <option value="TRY">TRY - Turkish Lira</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="SEK">SEK - Swedish Krona</option>
+                <option value="NOK">NOK - Norwegian Krone</option>
+                <option value="DKK">DKK - Danish Krone</option>
+            </select>
+            <select id="toCurrency">
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="SGD">SGD - Singapore Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="MYR">MYR - Malaysian Ringgit</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="NZD">NZD - New Zealand Dollar</option>
+                <option value="THB">THB - Thai Baht</option>
+                <option value="HKD">HKD - Hong Kong Dollar</option>
+                <option value="ZAR">ZAR - South African Rand</option>
+                <option value="RUB">RUB - Russian Ruble</option>
+                <option value="BRL">BRL - Brazilian Real</option>
+                <option value="KRW">KRW - South Korean Won</option>
+                <option value="MXN">MXN - Mexican Peso</option>
+                <option value="IDR">IDR - Indonesian Rupiah</option>
+                <option value="TRY">TRY - Turkish Lira</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="SEK">SEK - Swedish Krona</option>
+                <option value="NOK">NOK - Norwegian Krone</option>
+                <option value="DKK">DKK - Danish Krone</option>
+            </select>
+            <button onclick="convertCurrency()">Convert</button>
+            <div class="result" id="result"></div>
+        </div>
+    </div>
+
+    <script>
+        const exchangeRates = {
+            USD: { EUR: 0.85, GBP: 0.75, INR: 74.50, AUD: 1.30, CAD: 1.25, SGD: 1.35, CHF: 0.90, MYR: 4.15, JPY: 110.00, CNY: 6.45, NZD: 1.40, THB: 32.50, HKD: 7.80, ZAR: 14.50, RUB: 73.00, BRL: 5.25, KRW: 1150.00, MXN: 20.00, IDR: 14350.00, TRY: 8.50, SAR: 3.75, SEK: 8.50, NOK: 8.70, DKK: 6.30, USD: 1 },
+            EUR: { USD: 1.18, GBP: 0.88, INR: 88.00, AUD: 1.53, CAD: 1.47, SGD: 1.59, CHF: 1.06, MYR: 4.90, JPY: 129.00, CNY: 7.60, NZD: 1.64, THB: 38.00, HKD: 9.15, ZAR: 17.00, RUB: 86.00, BRL: 6.18, KRW: 1353.00, MXN: 23.50, IDR: 16800.00, TRY: 10.00, SAR: 4.40, SEK: 10.00, NOK: 10.30, DKK: 7.45, EUR: 1 },
+            GBP: { USD: 1.34, EUR: 1.14, INR: 100.00, AUD: 1.77, CAD: 1.68, SGD: 1.82, CHF: 1.20, MYR: 5.55, JPY: 151.00, CNY: 8.90, NZD: 1.92, THB: 44.50, HKD: 10.70, ZAR: 20.00, RUB: 101.00, BRL: 7.27, KRW: 1590.00, MXN: 27.50, IDR: 19600.00, TRY: 11.50, SAR: 5.00, SEK: 11.70, NOK: 12.00, DKK: 8.65, GBP: 1 },
+            INR: { USD: 0.013, EUR: 0.011, GBP: 0.010, AUD: 0.018, CAD: 0.017, SGD: 0.018, CHF: 0.012, MYR: 0.056, JPY: 1.50, CNY: 0.086, NZD: 0.020, THB: 0.44, HKD: 0.011, ZAR: 0.20, RUB: 1.00, BRL: 0.072, KRW: 16.00, MXN: 0.27, IDR: 196.00, TRY: 0.11, SAR: 0.050, SEK: 0.12, NOK: 0.13, DKK: 0.086, INR: 1 },
+            // Add other currencies similarly...
+        };
+
+        function convertCurrency() {
+            const amount = document.getElementById('amount').value;
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            if (amount && fromCurrency && toCurrency) {
+                const rate = exchangeRates[fromCurrency][toCurrency];
+                const convertedAmount = amount * rate;
+                document.getElementById('result').innerText = `Converted Amount: ${convertedAmount.toFixed(2)} ${toCurrency}`;
+            } else {
+                document.getElementById('result').innerText = 'Please enter amount and select currencies.';
+            }
+        }
+    </script>
+</body>
+</html>
